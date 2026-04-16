@@ -1,0 +1,313 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\cterry> curl -X GET localhost:8000/items
+Invoke-WebRequest : A parameter cannot be found that matches parameter name 'X'.
+At line:1 char:6
++ curl -X GET localhost:8000/items
++      ~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+
+PS C:\Users\cterry> curl localhost:8000/items
+curl : The URI prefix is not recognized.
+At line:1 char:1
++ curl localhost:8000/items
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotImplemented: (:) [Invoke-WebRequest], NotSupportedException
+    + FullyQualifiedErrorId : WebCmdletIEDomNotSupportedException,Microsoft.PowerShell.Commands.InvokeWebRequestComman
+   d
+
+PS C:\Users\cterry> curl localhost:8000/items
+curl : The URI prefix is not recognized.
+At line:1 char:1
++ curl localhost:8000/items
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotImplemented: (:) [Invoke-WebRequest], NotSupportedException
+    + FullyQualifiedErrorId : WebCmdletIEDomNotSupportedException,Microsoft.PowerShell.Commands.InvokeWebRequestComman
+   d
+
+PS C:\Users\cterry> curl 'localhost:8000/items'
+curl : The URI prefix is not recognized.
+At line:1 char:1
++ curl 'localhost:8000/items'
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotImplemented: (:) [Invoke-WebRequest], NotSupportedException
+    + FullyQualifiedErrorId : WebCmdletIEDomNotSupportedException,Microsoft.PowerShell.Commands.InvokeWebRequestComman
+   d
+
+PS C:\Users\cterry> curl http://localhost:8000/items
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"content":{"1":{"name":"Item 1","description":"This is item 1"},"2":{"thingy":"this is a
+                    thiny","pointless":true}},"message":"fetched items","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 157
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:15:20 GMT
+                    Server: uvicorn
+
+                    {"content":{"1":{"name":"Item 1","description":"This is item 1"},"2":{"thi...
+Forms             : {}
+Headers           : {[Content-Length, 157], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:15:20 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 157
+
+
+
+PS C:\Users\cterry> curl -X http://localhost:8000/items
+Invoke-WebRequest : A parameter cannot be found that matches parameter name 'X'.
+At line:1 char:6
++ curl -X http://localhost:8000/items
++      ~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+
+PS C:\Users\cterry> curl POST http://localhost:8000/items -H 'Content-Type: application/json' -d '{"data": 5, "info": "IMade it"}
+>> '
+Invoke-WebRequest : Cannot bind parameter 'Headers'. Cannot convert the "Content-Type: application/json" value of type
+"System.String" to type "System.Collections.IDictionary".
+At line:1 char:42
++ ... tp://localhost:8000/items -H 'Content-Type: application/json' -d '{"d ...
++                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBindingException
+    + FullyQualifiedErrorId : CannotConvertArgumentNoMessage,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+
+PS C:\Users\cterry> curl http://localhost:8000/items `
+>> -Method POST `
+>> -Headers @{"Content-Type" = "application/json"} `
+>> -Body '{"name": "apple"}'
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"item_id":3,"message":"pushed item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 52
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:27:42 GMT
+                    Server: uvicorn
+
+                    {"item_id":3,"message":"pushed item","success":true}
+Forms             : {}
+Headers           : {[Content-Length, 52], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:27:42 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 52
+
+
+
+PS C:\Users\cterry> curl http://localhost:8000/item/3
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"content":{"name":"apple"},"message":"fetched item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 68
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:28:10 GMT
+                    Server: uvicorn
+
+                    {"content":{"name":"apple"},"message":"fetched item","success":true}
+Forms             : {}
+Headers           : {[Content-Length, 68], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:28:10 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 68
+
+
+
+PS C:\Users\cterry> curl http://localhost:8000/item/3 `
+>> -Method PUT `
+>> -Headers @{'Content-Type' = 'application/json'} `
+>> -Body '{"name": "new apple"}'
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"message":"updated item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 41
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:31:30 GMT
+                    Server: uvicorn
+
+                    {"message":"updated item","success":true}
+Forms             : {}
+Headers           : {[Content-Length, 41], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:31:30 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 41
+
+
+
+PS C:\Users\cterry> curl http://localhost:8000/item/3
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"content":{"name":"new apple"},"message":"fetched item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 72
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:31:42 GMT
+                    Server: uvicorn
+
+                    {"content":{"name":"new apple"},"message":"fetched item","success":true}
+Forms             : {}
+Headers           : {[Content-Length, 72], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:31:42 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 72
+
+
+
+PS C:\Users\cterry> curl http://localhost:8000/item/3 `
+>> -Method DELETE
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"message":"deleted item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 41
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:33:59 GMT
+                    Server: uvicorn
+
+                    {"message":"deleted item","success":true}
+Forms             : {}
+Headers           : {[Content-Length, 41], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:33:59 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 41
+
+
+
+PS C:\Users\cterry> curl http://localhost:8000/item/3
+curl : {"message":"Item not found","success":false}
+At line:1 char:1
++ curl http://localhost:8000/item/3
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExc
+   eption
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+PS C:\Users\cterry> curl http://localhost:8000/item/2
+
+Security Warning: Script Execution Risk
+Invoke-WebRequest parses the content of the web page. Script code in the web page might be run when the page is
+parsed.
+      RECOMMENDED ACTION:
+      Use the -UseBasicParsing switch to avoid script code execution.
+
+      Do you want to continue?
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"content":{"thingy":"this is a thiny","pointless":true},"message":"fetched item","success":true}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 97
+                    Content-Type: application/json
+                    Date: Sat, 04 Apr 2026 22:36:04 GMT
+                    Server: uvicorn
+
+                    {"content":{"thingy":"this is a thiny","pointless":true},"message":"fetched...
+Forms             : {}
+Headers           : {[Content-Length, 97], [Content-Type, application/json], [Date, Sat, 04 Apr 2026 22:36:04 GMT],
+                    [Server, uvicorn]}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 97
+
+
+
+PS C:\Users\cterry>
