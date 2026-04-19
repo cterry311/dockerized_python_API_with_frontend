@@ -6,4 +6,4 @@ COPY . /front_end
 
 RUN npm i
 
-CMB ["npm" "start"]
+CMD ["node", "index.js"]

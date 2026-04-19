@@ -1,3 +1,5 @@
 I used AI to generate a basic express/ejs starter structure for the front end, as well as a starter html file for the front end
 
 I used AI to check my dockerfile for the front end, it suggested adding a .dockerignore file to prevent copying the node_modules, it also suggested optimizations, but I ignored those
+
+I used AI to check if I was setting up mongoDB correctly, it confirmed that I was, and showed me how to get the right connection string and how to set a password and username

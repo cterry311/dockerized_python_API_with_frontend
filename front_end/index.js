@@ -14,14 +14,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/records', async (req, res) => {
-    const response = await fetch('http://localhost:8000/items')
+    const response = await fetch('http://app:8000/items')
     const data = await response.json();
     res.json(data);
 });
 
 app.post('/records', async (req, res) => {
     console.log(req.body.data);
-    await fetch('http://localhost:8000/items', {
+    await fetch('http://app:8000/items', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ app.put('/records', async (req, res) => {
     console.log("hit put route")
     console.log(req.body.id);
     console.log(req.body.data);
-    await fetch(`http://localhost:8000/item/${req.body.id}`, {
+    await fetch(`http://app:8000/item/${req.body.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -47,7 +47,7 @@ app.put('/records', async (req, res) => {
 
 app.delete('/records', async (req, res) => {
     console.log(req.body.id);
-    await fetch(`http://localhost:8000/item/${req.body.id}`, {
+    await fetch(`http://app:8000/item/${req.body.id}`, {
         method: "DELETE"
     })
     res.send('ok');
