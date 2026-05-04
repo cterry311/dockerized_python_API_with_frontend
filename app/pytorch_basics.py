@@ -4,11 +4,7 @@ import numpy
 import sklearn.datasets as datasets
 import sklearn
 import torch.optim as optim
-import torchvision
-import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
-import numpy as np
-import os
+
 
 def gradient_demo():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -57,7 +53,7 @@ class MyDataset(torch.utils.data.Dataset):
 def loadData():
 
     dataset = datasets.load_iris()
-    trainX, testX, trainY, testY = sklearn.model_selection.train_test_split(dataset.data, dataset.target, test_size=0.2)
+    trainX, testX, trainY, testY = sklearn.model_selection.train_test_split(dataset.data, dataset.target, test_size=0.2, random_state=42)
 
 
     trainset = MyDataset(trainX, trainY)
