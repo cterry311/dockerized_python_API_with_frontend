@@ -80,6 +80,7 @@ def trainModel():
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     for epoch in range(50):
         running_loss = 0.0
+        records = 0
         for i, data in enumerate(trainLoader, 0):
             inputs, labels = data
             optimizer.zero_grad()
@@ -88,6 +89,8 @@ def trainModel():
             loss.backward()
             optimizer.step()
             running_loss += loss.item()
+            records += len(data)
+        print(f"Epoch {epoch+1}: loss = {running_loss/records}")
     torch.save(model.state_dict(), 'model.pth')
     torch.save(params, 'params.pth')
 
@@ -118,4 +121,8 @@ def testModel():
 
 
 #trainModel()
-testModel()
+#testModel()
+print(torch.cuda.is_available())
+print(torch.version.cuda)
+print(torch.cuda.device_count())
+print(torch.__version__)
