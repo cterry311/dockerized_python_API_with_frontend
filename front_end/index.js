@@ -53,6 +53,19 @@ app.delete('/records', async (req, res) => {
     res.send('ok');
 })
 
+
+app.post('/predict', async (req, res) => {
+    console.log(req.body);
+    const response = await fetch('http://app:8000/predict', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(req.body)
+    })
+    res.json(await response.json())
+})
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -136,4 +136,31 @@ function setFunMode() {
     }, 1)
 }
 
+
+
+// the stuff down here is for the prediction route
+
+const sepalLength = document.getElementById("sepalLength")
+const sepalWidth = document.getElementById("sepalWidth")
+const petalLength = document.getElementById("petalLength")
+const petalWidth = document.getElementById("petalWidth")
+const submitButton = document.getElementById("submit")
+const prediction = document.getElementById("modelOutput")
+
+submitButton.addEventListener("click", async () => {
+    const response = await fetch("predict", {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": JSON.stringify([sepalLength.value, sepalWidth.value, petalLength.value, petalWidth.value])
+    })
+    const data = await response.json()
+    prediction.textContent = JSON.stringify(data, null, 5)
+    sepalLength.value = ""
+    sepalWidth.value = ""
+    petalLength.value = ""
+    petalWidth.value = ""
+})
+
 refreshList()
