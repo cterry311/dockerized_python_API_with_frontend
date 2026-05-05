@@ -13,3 +13,9 @@ to run the app
 
 the github link is this
 https://github.com/cterry311/dockerized_python_API_with_frontend.git
+
+the API is running on localhost:8000, 
+
+the POST route /predict will acess the model and get a prediction from it
+
+/docs route will acess the swagger documentation and lets you call the /predict route and veiw my documentation
