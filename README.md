@@ -18,4 +18,6 @@ the API is running on localhost:8000,
 
 the POST route /predict will acess the model and get a prediction from it
 
-/docs route will acess the swagger documentation and lets you call the /predict route and veiw my documentation
+/docs route will acess the swagger documentation and lets you call the /predict route and view my documentation
+
+the frontend is running on localhost:3000, it has feilds for inputing the data for the model and a button to send them to the backend for a prediction
