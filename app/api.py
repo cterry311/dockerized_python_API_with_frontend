@@ -19,8 +19,8 @@ class SimpleClassifier(nn.Module):
         return x
 
 
-model = SimpleClassifier(*torch.load('params.pth'))
-model.load_state_dict(torch.load('model.pth'))
+model = SimpleClassifier(*torch.load('../model/params.pth'))
+model.load_state_dict(torch.load('../model/model.pth'))
 model.eval()
 
 
