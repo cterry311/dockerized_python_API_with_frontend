@@ -1,27 +1,7 @@
 import fastapi
 import json
 import pymongo
-import torch.nn as nn
-import torch
-
-
-
-class SimpleClassifier(nn.Module):
-    def __init__(self, input_size, hidden_size, num_classes):
-        super().__init__()
-        self.layer1 = nn.Linear(input_size, hidden_size)
-        self.act1 = nn.ReLU()
-        self.layer2 = nn.Linear(hidden_size, num_classes)
-
-    def forward(self, x):
-        x = self.act1(self.layer1(x))
-        x = self.layer2(x)
-        return x
-
-
-model = SimpleClassifier(*torch.load('../model/params.pth'))
-model.load_state_dict(torch.load('../model/model.pth'))
-model.eval()
+import requests
 
 
 app = fastapi.FastAPI()
@@ -108,15 +88,9 @@ def predict(inputs: list[float]):
     '''
     if len(inputs) != 4 or type(inputs[0]) != float:
         return fastapi.responses.JSONResponse(status_code=400, content={"message": "bad request", "success": False})
-    with torch.no_grad():
-        outputs = model(torch.tensor(inputs))
-    return fastapi.responses.JSONResponse(
-        status_code=200,
-        content={"content": {
-            "outputs": outputs.tolist(),
-            "softmax": torch.softmax(outputs, dim=0).tolist(),
-            "prediction": torch.argmax(outputs).item()
-        }, "message": "prediction made", "success": True},
-    )
-
+    response = requests.post("http://model:8001/predict", json={"inputs": inputs})
+    responseDict = response.json()
+    if not responseDict["success"]:
+        return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to model failed", "success": False})
+    return fastapi.responses.JSONResponse(status_code=200, content={"content": responseDict["content"], "message": "prediction fetched", "success": True})
 # backend-api is what I called the image
