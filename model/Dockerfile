@@ -1,4 +1,9 @@
-FROM ubuntu:latest
-LABEL authors="cterry"
+FROM pytorch/pytorch:latest
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install fastapi uvicorn
+
+CMD ["uvicorn", "model_api:app", "--host", "0.0.0.0", "--port", "8001"]

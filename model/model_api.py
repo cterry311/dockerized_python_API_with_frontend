@@ -1,4 +1,5 @@
 import fastapi
+from typing import List
 
 import torch.nn as nn
 import torch
@@ -18,8 +19,8 @@ class SimpleClassifier(nn.Module):
         return x
 
 
-model = SimpleClassifier(*torch.load('../model/params.pth'))
-model.load_state_dict(torch.load('../model/model.pth'))
+model = SimpleClassifier(*torch.load('params.pth'))
+model.load_state_dict(torch.load('model.pth'))
 model.eval()
 
 
@@ -30,7 +31,7 @@ app = fastapi.FastAPI()
 
 
 @app.post("/predict")
-def predict(inputs: list[float]):
+def predict(inputs : List[float]):
     '''
     iris prediction endpoint
     :param inputs: expects a list of floats of length 4, with each value representing a featuer of the iris dataset, expecteded in the order, sepal length, sepal width, petal length, petal width
@@ -48,5 +49,3 @@ def predict(inputs: list[float]):
             "prediction": torch.argmax(outputs).item()
         }, "message": "prediction made", "success": True},
     )
-
-# backend-api is what I called the image

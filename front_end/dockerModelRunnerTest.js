@@ -15,7 +15,7 @@ async function getResponse(prompt) {
             "Content-Type": "application/json"
         },
         "body": JSON.stringify({
-            "model": "ai/smollm2",
+            "model": "ai/gemma4:E4B",
             "messages": [{"role": "user", "content": prompt}]
         })
     })

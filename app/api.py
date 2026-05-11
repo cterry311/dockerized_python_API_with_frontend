@@ -88,8 +88,10 @@ def predict(inputs: list[float]):
     '''
     if len(inputs) != 4 or type(inputs[0]) != float:
         return fastapi.responses.JSONResponse(status_code=400, content={"message": "bad request", "success": False})
-    response = requests.post("http://model:8001/predict", json={"inputs": inputs})
+    response = requests.post("http://model:8001/predict", json=inputs)
     responseDict = response.json()
+    print("this is the response:")
+    print(responseDict)
     if not responseDict["success"]:
         return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to model failed", "success": False})
     return fastapi.responses.JSONResponse(status_code=200, content={"content": responseDict["content"], "message": "prediction fetched", "success": True})

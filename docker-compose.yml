@@ -11,6 +11,11 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - model
+  model:
+    build: model
+    ports:
+      - "8001:8001"
   db:
     image: mongo
     volumes:
