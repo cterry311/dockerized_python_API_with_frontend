@@ -49,3 +49,8 @@ def predict(inputs : List[float]):
             "prediction": torch.argmax(outputs).item()
         }, "message": "prediction made", "success": True},
     )
+
+@app.get("/health")
+def health():
+    print("health check")
+    return {"status": "healthy", "model_loaded": model is not None, "message": "model loaded", "success": True}

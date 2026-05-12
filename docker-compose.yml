@@ -16,6 +16,13 @@ services:
     build: model
     ports:
       - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: [ "CMD", "python", "test_script.py" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   db:
     image: mongo
     volumes:

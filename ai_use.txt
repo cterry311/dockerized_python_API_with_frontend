@@ -5,3 +5,6 @@ I used AI to check my dockerfile for the front end, it suggested adding a .docke
 I used AI to check if I was setting up mongoDB correctly, it confirmed that I was, and showed me how to get the right connection string and how to set a password and username
 
 I used AI to help me troubleshoot my virtual python enviorment
+
+
+I used AI to troubleshoot problems linking between the model and app
