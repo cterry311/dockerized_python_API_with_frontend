@@ -8,3 +8,7 @@ I used AI to help me troubleshoot my virtual python enviorment
 
 
 I used AI to troubleshoot problems linking between the model and app
+
+I used AI to troubleshoot the health check problem,
+
+I used AI to help me construct a curl command to test the model API

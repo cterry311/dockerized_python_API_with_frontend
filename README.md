@@ -20,7 +20,7 @@ this application allows the user to save and view records in mong, as well as ac
 WebInterface --->  FrontEnd ---> BackEnd ---> ModelAPI<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; |---> Mongo
 
-## model
+## docker model runner
 
 a model was loaded using docker model runner, the model was gemma4, code for making requests to it is in the file, front_end/dockerModelRunnerTest.js
 
