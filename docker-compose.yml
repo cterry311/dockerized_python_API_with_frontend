@@ -12,6 +12,7 @@ services:
     depends_on:
       - db
       - model
+      - llm_api
   model:
     build: model
     ports:
@@ -23,6 +24,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+  llm_api:
+    build: llm_api
+    ports:
+      - "8002:8002"
   db:
     image: mongo
     volumes:
