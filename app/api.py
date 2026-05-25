@@ -96,3 +96,19 @@ def predict(inputs: list[float]):
         return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to model failed", "success": False})
     return fastapi.responses.JSONResponse(status_code=200, content={"content": responseDict["content"], "message": "prediction fetched", "success": True})
 # backend-api is what I called the image
+
+
+@app.post("/chat")
+def chat(message: str):
+    print(message)
+    response = requests.post("http://llm_api:8002/chat", json=message)
+    if response.status_code != 200:
+        return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to llm failed", "success": False})
+    return fastapi.responses.JSONResponse(status_code=200, content={"content": response.json()["message"], "message": "prediction fetched", "success": True})
+
+@app.post("/housing")
+def housing(information: object):
+    response = requests.post("http://llm_api:8002/housing", json=information)
+    if response.status_code != 200:
+        return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to llm failed", "success": False})
+    return fastapi.responses.JSONResponse(status_code=200, content={"content": response.json()["message"], "message": "prediction fetched", "success": True})

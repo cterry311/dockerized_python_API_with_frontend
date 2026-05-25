@@ -29,24 +29,36 @@ def fetchResponse(prompt, doingHousing=False):
         "model": "ai/gemma4:E4B",
         "messages": context
     }
-    response = requests.post("http://localhost:12434/engines/llama.cpp/v1/chat/completions", headers=headers, json=body)
+    response = requests.post("http://host.docker.internal:12434/engines/llama.cpp/v1/chat/completions", headers=headers, json=body)
+    if response.status_code != 200:
+        print(response.text)
+        return {"ok": False, "message":"something went wrong with the request", "error": response.json()}
     content = response.json()
     message = content["choices"][0]["message"]["content"]
     print(message)
-    return message
+    return {"ok": True, "message": message}
+# I used AI to help me troubleshoot the code, it helped me figure out that I could not use localhost for the request because it was inside of a docker container instead of running locally
 
 app = fastapi.FastAPI()
 
 @app.post("/chat")
-def chat(message: str):
-    return fetchResponse(message)
+def chat(message: str = fastapi.Body()):
+    print("hit route")
+    print(message)
+    response = fetchResponse(message)
+    if response["ok"]:
+        return {"ok": True, "message": response["message"]}
+    else:
+        return fastapi.responses.JSONResponse(response, status_code=500)
 
 
 @app.post("/housing")
 def housing(information: object):
     json_str = json.dumps(information)
     model_response = fetchResponse(json_str, doingHousing=True)
+    if not model_response["ok"]:
+        return fastapi.responses.JSONResponse(model_response, status_code=500)
     try:
-        return json.load(model_response)
+        return fastapi.responses.JSONResponse(json.load(model_response["message"]))
     except(json.decoder.JSONDecodeError, TypeError):
         return fastapi.responses.JSONResponse(status_code=500, content={"message": "model responded with non json", "success": False})
