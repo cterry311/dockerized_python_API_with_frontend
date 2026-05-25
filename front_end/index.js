@@ -85,7 +85,7 @@ app.post('/housing', async (req, res) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: req.body
+        body: JSON.stringify(req.body)
     });
     return res.json(await response.json())
 })

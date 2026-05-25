@@ -182,4 +182,27 @@ chatButton.addEventListener("click", async () => {
     chatInput.value = ""
 })
 
+const housingLocation = document.getElementById("bestimateLocation")
+const bestimateFootage = document.getElementById("bestimateFootage")
+const bestimateDescription = document.getElementById("bestimateDescription")
+const bestimateButton = document.getElementById("bestimateButton")
+const bestimateEstimate = document.getElementById("bestimateEstimate")
+const bestimateConfidence = document.getElementById("bestimateConfidence")
+
+bestimateButton.addEventListener("click", async () => {
+    bestimateEstimate.textContent = "Estimating..."
+    bestimateConfidence.textContent = "Estimating..."
+    const response = await fetch("housing", {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": JSON.stringify({location: housingLocation.value, footage: bestimateFootage.value, description: bestimateDescription.value})
+    })
+    const data = await response.json()
+    console.log(data)
+    bestimateEstimate.textContent = "Estimated Price: " + data.content.price
+    bestimateConfidence.textContent = "Estimate Confidence: " + data.content.confidence
+})
+
 refreshList()
