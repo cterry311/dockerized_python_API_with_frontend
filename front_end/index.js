@@ -73,7 +73,7 @@ app.post('/chat', async (req, res) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: req.body.message
+        body: JSON.stringify(req.body.message)
     })
     return res.json(await response.json())
 })

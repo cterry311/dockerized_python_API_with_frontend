@@ -163,4 +163,23 @@ submitButton.addEventListener("click", async () => {
     petalWidth.value = ""
 })
 
+const chatInput = document.getElementById("chatInput")
+const chatOutput = document.getElementById("chatOutput")
+const chatButton = document.getElementById("chatButton")
+
+chatButton.addEventListener("click", async () => {
+    chatOutput.textContent = "waiting..."
+    const response = await fetch("chat", {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": JSON.stringify({message: chatInput.value})
+    })
+    const data = await response.json()
+    console.log(data)
+    chatOutput.textContent = data.content
+    chatInput.value = ""
+})
+
 refreshList()
