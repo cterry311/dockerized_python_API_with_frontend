@@ -53,12 +53,14 @@ def chat(message: str = fastapi.Body()):
 
 
 @app.post("/housing")
-def housing(information: object):
+def housing(information: object = fastapi.Body()):
     json_str = json.dumps(information)
     model_response = fetchResponse(json_str, doingHousing=True)
+    print("predicted housing")
+    print(model_response)
     if not model_response["ok"]:
         return fastapi.responses.JSONResponse(model_response, status_code=500)
     try:
-        return fastapi.responses.JSONResponse(json.load(model_response["message"]))
+        return fastapi.responses.JSONResponse(json.loads(model_response["message"]))
     except(json.decoder.JSONDecodeError, TypeError):
         return fastapi.responses.JSONResponse(status_code=500, content={"message": "model responded with non json", "success": False})

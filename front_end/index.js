@@ -66,6 +66,30 @@ app.post('/predict', async (req, res) => {
     res.json(await response.json())
 })
 
+app.post('/chat', async (req, res) => {
+    console.log(req.body.message);
+    const response = await fetch('http://app:8000/chat', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: req.body.message
+    })
+    return res.json(await response.json())
+})
+
+app.post('/housing', async (req, res) => {
+    console.log(req.body);
+    const response = await fetch('http://app:8000/housing', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: req.body
+    });
+    return res.json(await response.json())
+})
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
