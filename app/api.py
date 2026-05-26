@@ -99,9 +99,9 @@ def predict(inputs: list[float]):
 
 
 @app.post("/chat")
-def chat(message: str = fastapi.Body()):
-    print(message)
-    response = requests.post("http://llm_api:8002/chat", json=message)
+def chat(context: object = fastapi.Body()):
+    print(context)
+    response = requests.post("http://llm_api:8002/chat", json=context)
     if response.status_code != 200:
         return fastapi.responses.JSONResponse(status_code=500, content={"message": "fetch to llm failed", "success": False})
     return fastapi.responses.JSONResponse(status_code=200, content={"content": response.json()["message"], "message": "prediction fetched", "success": True})

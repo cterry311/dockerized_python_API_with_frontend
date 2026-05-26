@@ -67,13 +67,13 @@ app.post('/predict', async (req, res) => {
 })
 
 app.post('/chat', async (req, res) => {
-    console.log(req.body.message);
+    console.log(req.body);
     const response = await fetch('http://app:8000/chat', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(req.body.message)
+        body: JSON.stringify(req.body)
     })
     return res.json(await response.json())
 })

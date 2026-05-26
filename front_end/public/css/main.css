@@ -2,3 +2,8 @@ p {
     white-space: pre-wrap;
     border: 1px solid black;
 }
+
+.message {
+    border: 1px solid darkblue;
+    margin: 20px
+}

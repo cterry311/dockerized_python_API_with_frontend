@@ -167,19 +167,43 @@ const chatInput = document.getElementById("chatInput")
 const chatOutput = document.getElementById("chatOutput")
 const chatButton = document.getElementById("chatButton")
 
+function getContext() {
+    let context = []
+    for (const item of chatOutput.children) {
+        context.push({role: item.getAttribute("role"), content: item.textContent})
+    }
+    return context
+}
+let working = false
 chatButton.addEventListener("click", async () => {
-    chatOutput.textContent = "waiting..."
+    if (working) {
+        return
+    }
+    working = true
+    let context = getContext();
+    context.push({role: 'user', content: chatInput.value})
+    const newMessage = document.createElement("div")
+    newMessage.classList.add("message")
+    newMessage.setAttribute("role", "user")
+    newMessage.textContent = chatInput.value
+    chatOutput.appendChild(newMessage)
+    chatInput.value = "";
     const response = await fetch("chat", {
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
         },
-        "body": JSON.stringify({message: chatInput.value})
+        "body": JSON.stringify(context)
     })
     const data = await response.json()
     console.log(data)
-    chatOutput.textContent = data.content
-    chatInput.value = ""
+    const modelResponse = document.createElement("div")
+    modelResponse.classList.add("message")
+    modelResponse.setAttribute("role", "assistant")
+    modelResponse.textContent = data.content
+    chatOutput.appendChild(modelResponse)
+    // chatOutput.textContent = data.content
+    working = false
 })
 
 const housingLocation = document.getElementById("bestimateLocation")

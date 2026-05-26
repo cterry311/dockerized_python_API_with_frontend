@@ -6,9 +6,10 @@ import json
 load_dotenv()
 
 
-def fetchResponse(prompt, doingHousing=False):
-    context = []
+def fetchResponse(context, doingHousing=False):
     if doingHousing:
+        prompt = context
+        context = []
         context.append({
             "role":"system",
             "content": '''
@@ -17,10 +18,10 @@ def fetchResponse(prompt, doingHousing=False):
             you will not respond in anything other than a json format and will only reply with the housing price predictions
             '''
         })
-    context.append({
-        "role":"user",
-        "content": prompt
-    })
+        context.append({
+            "role":"user",
+            "content": prompt
+        })
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {os.getenv('API_KEY')}"
@@ -42,10 +43,10 @@ def fetchResponse(prompt, doingHousing=False):
 app = fastapi.FastAPI()
 
 @app.post("/chat")
-def chat(message: str = fastapi.Body()):
+def chat(context: object = fastapi.Body()):
     print("hit route")
-    print(message)
-    response = fetchResponse(message)
+    print(context)
+    response = fetchResponse(context)
     if response["ok"]:
         return {"ok": True, "message": response["message"]}
     else:
