@@ -34,3 +34,9 @@ the following endpoints are availible <br>
 /housing<br>
 the /chat endpoint expects the context of the converation in openAI format, it will get the models response, the /housing endpoint expects a json body descricing aspects of the house in question, and it will return a response containing  the following keys, price, which is the predicted price, and confidence, which is the models confidence in it's prediction.
 also note that the model should not be trusted at all in it's predictions, it is an LLM doing regression, so take it's predictions with a grain of salt
+
+### housing system prompt
+the following prompt was provided to the model in order for it to do housing predictions
+<code>you are a housing price predictor, you will predict housing prices based on user input. you will get input from the user in json format
+            you will respond in json format, and example reply is as follows '{"price": 20000, "confidence":0.6}', you will always respond with the fields price, and confidence. each is a numerical value, where price is the value of the home, and confidence is a float between 0 and 1.
+            you will not respond in anything other than a json format and will only reply with the housing price predictions</code>
